@@ -23,7 +23,9 @@ class AlarmClock {
   }
   getCurrentFormattedTime() {
     let date = new Date(Date.now());
-    return `${date.getHours()}:${date.getMinutes()}`;
+    let hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+    let minutes = date.getMinutes();
+    return `${hours}:${minutes}`;
   }
   start() {
     if (!this.timerId) {
