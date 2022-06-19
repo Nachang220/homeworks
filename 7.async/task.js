@@ -3,6 +3,7 @@ class AlarmClock {
     this.alarmCollection = [];
     this.timerId = null;
   }
+
   addClock(time, callback, id) {
     if (!id) {
       throw new Error("Невозможно идентифицировать будильник. Параметр id не передан");
@@ -11,8 +12,9 @@ class AlarmClock {
       console.error("Будильник с таким id уже существует");
       return;
     }
-    this.alarmCollection.push({ id, time, callback });
+    this.alarmCollection.push({id, time, callback});
   }
+
   removeClock(id) {
     let index = this.alarmCollection.findIndex(item => item.id === id);
     if (index === -1) {
@@ -21,12 +23,14 @@ class AlarmClock {
     this.alarmCollection.splice(index, 1);
     return true;
   }
+
   getCurrentFormattedTime() {
     let date = new Date(Date.now());
     let hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
-    let minutes = date.getMinutes();
+    let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
     return `${hours}:${minutes}`;
   }
+
   start() {
     if (!this.timerId) {
       this.timerId = setInterval(() => {
@@ -36,23 +40,27 @@ class AlarmClock {
       }, 1000);
     }
   }
+
   stop() {
     if (this.timerId) {
       clearInterval(this.timerId);
       this.timerId = null;
     }
   }
+
   checkClock(alarm) {
     if (alarm.time === this.getCurrentFormattedTime()) {
       alarm.callback();
     }
   }
+
   printAlarms() {
     console.log(`Печать всех будильников в количестве: ${this.alarmCollection.length}`);
     this.alarmCollection.forEach(alarm => {
       console.log(`Будильник №${alarm.id} заведён на  ${alarm.time}`);
     });
   }
+
   clearAlarms() {
     this.stop();
     this.alarmCollection = [];
